@@ -37,6 +37,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { UploadButton, UploadDropzone, Uploader } from "@/lib/uploadthing";
 import { FileText, Pencil, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { createCategory } from "@/lib/actions/category.actions";
 
 type EventFormProps = {
   userId: string;

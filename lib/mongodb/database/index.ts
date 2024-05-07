@@ -22,7 +22,9 @@ export const connectToDatabase = async () => {
       dbName: "DocWave",
       bufferCommands: false,
     });
+  console.log("Connected to database");
 
   cached.conn = await cached.promise;
+  console.log(cached.conn);
   return cached.conn;
 };

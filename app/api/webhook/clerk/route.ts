@@ -58,6 +58,7 @@ export async function POST(req: Request) {
 
   //When an new user is created this event will be triggered by webhooks
   if (eventType === "user.created") {
+    console.log("inside webhook");
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
