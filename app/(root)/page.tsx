@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import Collection from "@/components/shared/Collection";
-import { getAllEvents } from "@/lib/actions/event.action";
-import Search from "@/components/shared/Search";
+
 import { SearchParamProps } from "@/types";
 import CategoryFilter from "@/components/shared/CategoryFilter";
 
