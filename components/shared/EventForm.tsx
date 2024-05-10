@@ -98,7 +98,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
       },
       {
         headers: {
-          accept: "text/plain",
+          accept: "application/json",
           "Content-Type": "application/json",
           "X-VERIFY": checksum,
         },
