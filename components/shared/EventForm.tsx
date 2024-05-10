@@ -39,6 +39,11 @@ import { FileText, Pencil, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createCategory } from "@/lib/actions/category.actions";
 
+import sha256 from "crypto-js/sha256";
+import { redirect } from "next/navigation";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+
 type EventFormProps = {
   userId: string;
   type: "Create" | "Update";
@@ -49,6 +54,61 @@ const EventForm = ({ userId, type }: EventFormProps) => {
   const [pdfFileData, setPdfFileData] = useState<any>("");
   const [pdfPrice, setPdfPrice] = useState("");
 
+  //phone pay
+  const makePayment = async (e: any) => {
+    e.preventDefault();
+
+    const transactionid = "Tr-" + uuidv4().toString().slice(-6);
+
+    const payload = {
+      merchantId: process.env.NEXT_PUBLIC_MERCHANT_ID,
+      merchantTransactionId: transactionid,
+      merchantUserId: "MUID-" + uuidv4().toString().slice(-6),
+      amount: +pdfFileData,
+      redirectUrl: `http://localhost:3000/api/status/${transactionid}`,
+      redirectMode: "POST",
+      callbackUrl: `http://localhost:3000/api/status/${transactionid}`,
+      mobileNumber: "9999999999",
+      paymentInstrument: {
+        type: "PAY_PAGE",
+      },
+    };
+
+    const dataPayload = JSON.stringify(payload);
+    console.log(dataPayload);
+
+    const dataBase64 = Buffer.from(dataPayload).toString("base64");
+    console.log(dataBase64);
+
+    const fullURL =
+      dataBase64 + "/pg/v1/pay" + process.env.NEXT_PUBLIC_SALT_KEY;
+    const dataSha256 = sha256(fullURL);
+
+    const checksum = dataSha256 + "###" + process.env.NEXT_PUBLIC_SALT_INDEX;
+    console.log("c====", checksum);
+
+    const UAT_PAY_API_URL =
+      "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+
+    const response = await axios.post(
+      UAT_PAY_API_URL,
+      {
+        request: dataBase64,
+      },
+      {
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          "X-VERIFY": checksum,
+        },
+      }
+    );
+
+    const redirect = response.data.data.instrumentResponse.redirectInfo.url;
+    router.push(redirect);
+  };
+
+  //main pricing logic
   let formValue = {};
   const dataValues = {
     normal: 0,
@@ -72,8 +132,6 @@ const EventForm = ({ userId, type }: EventFormProps) => {
     resolver: zodResolver(eventFormSchema),
     defaultValues: initialValues,
   });
-
-  async function createOrder() {}
 
   // 2. Define a submit handler.
   function onSubmit(values: any) {
@@ -420,7 +478,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
         </div>
 
         <Button
-          onClick={createOrder}
+          onClick={makePayment}
           size="lg"
           // disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3]"
