@@ -63,9 +63,9 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
     const payload = {
       merchantId: process.env.NEXT_PUBLIC_MERCHANT_ID,
-      merchantTransactionId: "MT7850590068188104",
-      merchantUserId: "MUID123",
-      amount: 1000,
+      merchantTransactionId: transactionid,
+      merchantUserId: "MUID-" + uuidv4().toString().slice(-6),
+      amount: 10000,
       redirectUrl: `http://localhost:3000/api/status/${transactionid}`,
       redirectMode: "POST",
       callbackUrl: `http://localhost:3000/api/status/${transactionid}`,
