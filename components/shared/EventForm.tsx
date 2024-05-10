@@ -53,6 +53,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
   const [pdfUrl, setPdfUrl] = useState("");
   const [pdfFileData, setPdfFileData] = useState<any>("");
   const [pdfPrice, setPdfPrice] = useState("");
+  let finalPrice = 0;
 
   //phone pay
   const makePayment = async (e: any) => {
@@ -62,9 +63,9 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
     const payload = {
       merchantId: process.env.NEXT_PUBLIC_MERCHANT_ID,
-      merchantTransactionId: transactionid,
-      merchantUserId: "MUID-" + uuidv4().toString().slice(-6),
-      amount: +pdfFileData,
+      merchantTransactionId: "MT7850590068188104",
+      merchantUserId: "MUID123",
+      amount: 1000,
       redirectUrl: `http://localhost:3000/api/status/${transactionid}`,
       redirectMode: "POST",
       callbackUrl: `http://localhost:3000/api/status/${transactionid}`,
@@ -122,7 +123,6 @@ const EventForm = ({ userId, type }: EventFormProps) => {
     staple: 1,
     loose: 0,
   };
-  let finalPrice = 0;
 
   const initialValues = eventDefaultValues;
 
