@@ -91,22 +91,44 @@ const EventForm = ({ userId, type }: EventFormProps) => {
     const UAT_PAY_API_URL =
       "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
 
-    const response = await axios.post(
-      UAT_PAY_API_URL,
-      {
+    const options = {
+      method: "POST",
+      url: UAT_PAY_API_URL,
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        "X-VERIFY": checksum,
+      },
+      data: {
         request: dataBase64,
       },
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          "X-VERIFY": checksum,
-        },
-      }
-    );
+    };
 
-    const redirect = response.data.data.instrumentResponse.redirectInfo.url;
-    router.push(redirect);
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+
+    // const response = await axios.post(
+    //   UAT_PAY_API_URL,
+    //   {
+    //     request: dataBase64,
+    //   },
+    //   {
+    //     headers: {
+    //       accept: "application/json",
+    //       "Content-Type": "application/json",
+    //       "X-VERIFY": checksum,
+    //     },
+    //   }
+    // );
+
+    // const redirect = response.data.data.instrumentResponse.redirectInfo.url;
+    // router.push(redirect);
   };
 
   //main pricing logic
