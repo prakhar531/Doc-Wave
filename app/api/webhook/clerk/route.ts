@@ -74,6 +74,7 @@ export async function POST(req: Request) {
     };
 
     const newUser = await createUser(user);
+    console.log(newUser);
 
     //setting publicMetadata in clerk user id
     if (newUser) {

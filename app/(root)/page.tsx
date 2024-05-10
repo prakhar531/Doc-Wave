@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { SearchParamProps } from "@/types";
 import CategoryFilter from "@/components/shared/CategoryFilter";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -24,13 +25,24 @@ export default async function Home({ searchParams }: SearchParamProps) {
               Book and learn helpful tips from 3,168+ mentors in world-class
               companies with our global community.
             </p>
-            <Button
-              size="lg"
-              asChild
-              className="button w-full sm:w-fit bg-[#1e3262] hover:bg-[#6385a3]"
-            >
-              <Link href="#events">Start Now</Link>
-            </Button>
+            <SignedOut>
+              <Button
+                size="lg"
+                asChild
+                className="button w-full sm:w-fit bg-[#1e3262] hover:bg-[#6385a3]"
+              >
+                <Link href="/sign-in">SingnUp to get started</Link>
+              </Button>
+            </SignedOut>
+            <SignedIn>
+              <Button
+                size="lg"
+                asChild
+                className="button w-full sm:w-fit bg-[#1e3262] hover:bg-[#6385a3]"
+              >
+                <Link href="/events/create">Upload Now</Link>
+              </Button>
+            </SignedIn>
           </div>
 
           <Image
