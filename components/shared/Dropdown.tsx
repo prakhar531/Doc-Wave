@@ -17,12 +17,14 @@ type DropdownProps = {
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
+
   useEffect(() => {
     const getCategories = async () => {
       const categoryList = await getAllCategory();
 
       categoryList && setCategories(categoryList as ICategory[]);
     };
+
     getCategories();
   }, []);
 
@@ -42,7 +44,6 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
               {category.name}
             </SelectItem>
           ))}
-        <SelectItem value="cse">CSE</SelectItem>
       </SelectContent>
     </Select>
   );

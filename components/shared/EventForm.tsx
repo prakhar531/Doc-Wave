@@ -56,9 +56,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
   let finalPrice = 0;
 
   //phone pay
-  const makePayment = async (e: any) => {
-    e.preventDefault();
-
+  const makePayment = async () => {
     const transactionid = "Tr-" + uuidv4().toString().slice(-6);
 
     const payload = {
