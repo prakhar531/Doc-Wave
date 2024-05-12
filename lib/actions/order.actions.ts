@@ -98,7 +98,7 @@ export async function getOrderById(orderId: string) {
 }
 
 // GET ORDERS BY USER
-export async function getOrdersByUser({ userId, limit = 10 }: any) {
+export async function getOrdersByUser({ userId, limit = 20 }: any) {
   try {
     await connectToDatabase();
     const conditions = { buyer: userId };
@@ -130,7 +130,7 @@ const getCategoryByName = async (name: string) => {
   return Category.findOne({ name: { $regex: name, $options: "i" } });
 };
 
-export async function getAllOrders({ query, limit = 6, category }: any) {
+export async function getAllOrders({ query, limit = 20, category }: any) {
   try {
     await connectToDatabase();
 

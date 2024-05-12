@@ -260,7 +260,7 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-center my-20">
+          {/* <div className="flex flex-center my-20">
             <Link href={`/admin/orders`} className="flex gap-2">
               <p className="text-primary-500">Back to All Orders</p>
               <Image
@@ -270,7 +270,7 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
                 height={10}
               />
             </Link>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

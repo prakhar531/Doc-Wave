@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, values } from "pdf-lib";
 
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
@@ -55,7 +55,6 @@ const EventForm = ({ userId }: EventFormProps) => {
 
   async function createOrderFunction() {
     let optValue = Math.floor(1000 + Math.random() * 9000);
-    let currentDate = new Date();
 
     let orderValue = {
       pageCount: +pdfFileData,
@@ -64,7 +63,6 @@ const EventForm = ({ userId }: EventFormProps) => {
       status: "Processing",
       otp: +optValue,
       deliveryDateAndTime: "Updating",
-      adminDate: new Date(),
     };
     let finalOrder = { ...orderValue, ...formData };
 
@@ -113,7 +111,7 @@ const EventForm = ({ userId }: EventFormProps) => {
 
   // 2. Define a submit handler.
   function onSubmit(values: any) {
-    setFormData(values);
+    setFormData({ ...values, adminDate: values.dateAndTime });
 
     let paperTypes =
       values.pageType == "normal" ? dataValues.normal : dataValues.bond;

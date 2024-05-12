@@ -32,13 +32,14 @@ const ProfilePage = async () => {
         <table className="w-full border-collapse border-t">
           <thead>
             <tr className="p-medium-14 border-b text-grey-500">
-              <th className="min-w-[250px] py-3 text-left">OTP</th>
-              <th className="min-w-[200px] flex-1 py-3 pr-4 text-left">
-                Status
+              <th className="min-w-[100px] py-3 text-left">OTP</th>
+              <th className="min-w-[150px] py-3 text-left">Order Status</th>
+              <th className="min-w-[150px] flex-1 py-3 pr-4 text-left">
+                Amount
               </th>
-              <th className="min-w-[150px] py-3 text-left">Date&Time</th>
-              <th className="min-w-[100px] py-3 text-left">Amount</th>
-              <th className="min-w-[100px] py-3 text-right"> </th>
+              <th className="min-w-[150px] py-3 text-left">Expected Date</th>
+              <th className="min-w-[150px] py-3 text-left">Expected Slots</th>
+              <th className="min-w-[150px] py-3 flex justify-end"> </th>
             </tr>
           </thead>
           <tbody>
@@ -51,38 +52,48 @@ const ProfilePage = async () => {
             ) : (
               <>
                 {orderArray &&
-                  orderArray.map((row: any) => (
-                    <tr
-                      key={row._id}
-                      className="p-regular-14 lg:p-regular-16 border-b "
-                      style={{ boxSizing: "border-box" }}
-                    >
-                      <td className="min-w-[250px] py-4 text-primary-500">
-                        {row.otp}
-                      </td>
-                      <td className="min-w-[200px] flex-1 py-4 pr-4">
-                        {row.status}
-                      </td>
-                      <td className="min-w-[150px] py-4">
-                        {formatDateTime(row.dateAndTime).dateTime}
-                      </td>
-                      <td className="min-w-[100px] py-4">{row.price}</td>
-                      <td className="min-w-[100px] py-4 text-right">
-                        <Link
-                          href={`/orders/${row._id}`}
-                          className="flex gap-2"
+                  orderArray.map(
+                    (row: any) =>
+                      row.status != "Delivered" && (
+                        <tr
+                          key={row._id}
+                          className="p-regular-14 lg:p-regular-16 border-b"
+                          style={{ boxSizing: "border-box" }}
                         >
-                          <p className="text-primary-500">Order Details</p>
-                          <Image
-                            src="/assets/icons/arrow.svg"
-                            alt="search"
-                            width={10}
-                            height={10}
-                          />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
+                          <td className="min-w-[150px] py-4 p-bold-24 text-[#1e3262]">
+                            {row.otp}
+                          </td>
+                          <td className="min-w-[150px] py-4 text-[#1e3262] p-bold-16">
+                            {row.status}
+                          </td>
+                          <td className="min-w-[150px] flex-1 py-4 pr-4">
+                            {row.price}
+                          </td>
+                          <td className="min-w-[150px] py-4">
+                            {formatDateTime(row.adminDate).dateOnly}
+                          </td>
+                          <td className="min-w-[100px] py-4">
+                            {row.deliveryDateAndTime}
+                          </td>
+                          <td className="min-w-[150px] py-4 text-right">
+                            <Link
+                              href={`/orders/${row._id}`}
+                              className="flex gap-2"
+                            >
+                              <p className="text-primary-500 text-right">
+                                Order Details
+                              </p>
+                              <Image
+                                src="/assets/icons/arrow.svg"
+                                alt="search"
+                                width={10}
+                                height={10}
+                              />
+                            </Link>
+                          </td>
+                        </tr>
+                      )
+                  )}
               </>
             )}
           </tbody>
