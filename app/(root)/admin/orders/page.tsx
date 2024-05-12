@@ -44,15 +44,13 @@ export default async function Home({ searchParams }: SearchParamProps) {
           <thead>
             <tr className="p-medium-14 border-b text-grey-500">
               <th className="min-w-[100px] py-3 text-left">OTP</th>
-              <th className="min-w-[200px] py-3 text-left">Name</th>
-              <th className="min-w-[200px] flex-1 py-3 pr-4 text-left">
+              <th className="min-w-[150px] py-3 text-left">Name</th>
+              <th className="min-w-[150px] flex-1 py-3 pr-4 text-left">
                 Status
               </th>
-              <th className="min-w-[250px] py-3 text-left">
-                Delivery Date&Time
-              </th>
-              <th className="min-w-[150px] py-3 text-left">Amount</th>
-              <th className="min-w-[150px] py-3 text-right"> </th>
+              <th className="min-w-[150px] py-3 text-left">Selected Date</th>
+              <th className="min-w-[150px] py-3 text-left">Selected Slots</th>
+              <th className="min-w-[150px] py-3 flex justify-end"> </th>
             </tr>
           </thead>
           <tbody>
@@ -73,25 +71,29 @@ export default async function Home({ searchParams }: SearchParamProps) {
                           className="p-regular-14 lg:p-regular-16 border-b"
                           style={{ boxSizing: "border-box" }}
                         >
-                          <td className="min-w-[250px] py-4 p-bold-24 text-[#1e3262]">
+                          <td className="min-w-[150px] py-4 p-bold-24 text-[#1e3262]">
                             {row.otp}
                           </td>
-                          <td className="min-w-[250px] py-4 text-[#1e3262] p-bold-16">
+                          <td className="min-w-[150px] py-4 text-[#1e3262] p-bold-16">
                             {row.buyer.firstName} {row.buyer.lastName}
                           </td>
-                          <td className="min-w-[200px] flex-1 py-4 pr-4">
+                          <td className="min-w-[150px] flex-1 py-4 pr-4">
                             {row.status}
                           </td>
                           <td className="min-w-[150px] py-4">
-                            {formatDateTime(row.dateAndTime).dateTime}
+                            {formatDateTime(row.dateAndTime).dateOnly}
                           </td>
-                          <td className="min-w-[100px] py-4">{row.price}</td>
-                          <td className="min-w-[100px] py-4 text-right">
+                          <td className="min-w-[100px] py-4">
+                            {row.userTimeSlot}
+                          </td>
+                          <td className="min-w-[150px] py-4 text-right">
                             <Link
                               href={`/orders/${row._id}`}
                               className="flex gap-2"
                             >
-                              <p className="text-primary-500">View</p>
+                              <p className="text-primary-500 text-right">
+                                View
+                              </p>
                               <Image
                                 src="/assets/icons/arrow.svg"
                                 alt="search"
@@ -103,7 +105,9 @@ export default async function Home({ searchParams }: SearchParamProps) {
                               href={`/admin/orders/${row._id}/update`}
                               className="flex gap-2"
                             >
-                              <p className="text-primary-500">Update</p>
+                              <p className="text-primary-500 text-right">
+                                Update
+                              </p>
                               <Image
                                 src="/assets/icons/arrow.svg"
                                 alt="search"

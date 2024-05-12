@@ -145,7 +145,6 @@ const EventForm = ({ userId }: EventFormProps) => {
       console.log(error);
     }
   }
-
   //main pricing logic
 
   const dataValues = {
@@ -247,8 +246,15 @@ const EventForm = ({ userId }: EventFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="normal">Normal Paper</SelectItem>
-                    <SelectItem value="bond">Bond Paper</SelectItem>
+                    <SelectItem
+                      value="normal"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Normal Paper
+                    </SelectItem>
+                    <SelectItem value="bond" className="hover:p-bold-16">
+                      Bond Paper
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -286,12 +292,25 @@ const EventForm = ({ userId }: EventFormProps) => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a paper color type" />
+                      <SelectValue
+                        placeholder="Select a paper color type"
+                        className="text-[#182442] hover:p-bold-16"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="black">Black And White Print</SelectItem>
-                    <SelectItem value="colorful">Colorful Print</SelectItem>
+                    <SelectItem
+                      value="black"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Black And White Print
+                    </SelectItem>
+                    <SelectItem
+                      value="colorful"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Colorful Print
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -310,12 +329,25 @@ const EventForm = ({ userId }: EventFormProps) => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select paper printing sides" />
+                      <SelectValue
+                        placeholder="Select paper printing sides"
+                        className="text-[#182442] hover:p-bold-16"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="single">Single side</SelectItem>
-                    <SelectItem value="both">Both Side</SelectItem>
+                    <SelectItem
+                      value="single"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Single side
+                    </SelectItem>
+                    <SelectItem
+                      value="both"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Both Side
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -336,12 +368,25 @@ const EventForm = ({ userId }: EventFormProps) => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a paper orientation type" />
+                      <SelectValue
+                        placeholder="Select a paper orientation type"
+                        className="text-[#182442] hover:p-bold-16"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="portrait">Portrait Print</SelectItem>
-                    <SelectItem value="landscape">LandScape Print</SelectItem>
+                    <SelectItem
+                      value="portrait"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Portrait Print
+                    </SelectItem>
+                    <SelectItem
+                      value="landscape"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      LandScape Print
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -360,13 +405,31 @@ const EventForm = ({ userId }: EventFormProps) => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select paper binding type" />
+                      <SelectValue
+                        placeholder="Select paper binding type"
+                        className="text-[#182442] hover:p-bold-16"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="soft">Soft Binding</SelectItem>
-                    <SelectItem value="spiral">Spiral Binding</SelectItem>
-                    <SelectItem value="loose">Loose Leaf / Staple</SelectItem>
+                    <SelectItem
+                      value="soft"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Soft Binding
+                    </SelectItem>
+                    <SelectItem
+                      value="spiral"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Spiral Binding
+                    </SelectItem>
+                    <SelectItem
+                      value="loose"
+                      className="text-[#182442] hover:p-bold-16"
+                    >
+                      Loose Leaf / Staple
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -382,7 +445,11 @@ const EventForm = ({ userId }: EventFormProps) => {
               <FormItem className="w-full basis-1/2">
                 <FormLabel>Enter NO. copies</FormLabel>
                 <FormControl>
-                  <Input placeholder="10" {...field} className="input-field" />
+                  <Input
+                    placeholder="10"
+                    {...field}
+                    className="input-field text-[#182442] p-bold-16"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -408,19 +475,19 @@ const EventForm = ({ userId }: EventFormProps) => {
                     <SelectContent>
                       <SelectItem
                         value="8:30Am - 9:30Am"
-                        className="hover:p-bold-16"
+                        className="text-[#182442] hover:p-bold-16"
                       >
                         Slot-1: 08:30Am - 09:30Am
                       </SelectItem>
                       <SelectItem
                         value="11:00Am - 12:00Pm"
-                        className="hover:p-bold-16"
+                        className="text-[#182442] hover:p-bold-16"
                       >
                         Slot-2: 11:00Am - 12:00Pm
                       </SelectItem>
                       <SelectItem
                         value="03:00Pm - 04:00Pm"
-                        className="hover:p-bold-16"
+                        className="text-[#182442] hover:p-bold-16"
                       >
                         Slot-3: 03:00Pm - 04:00Pm
                       </SelectItem>
@@ -453,6 +520,7 @@ const EventForm = ({ userId }: EventFormProps) => {
                         dateFormat="MM/dd/yyyy"
                         wrapperClassName="datePicker"
                         minDate={new Date()}
+                        className="text-[#182442] p-bold-16"
                       />
                     </div>
                   </FormControl>
@@ -492,7 +560,7 @@ const EventForm = ({ userId }: EventFormProps) => {
           className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3]"
         >
           {form.formState.isSubmitting
-            ? "DocWave"
+            ? "Calculating..."
             : "Check Price and Timeslots"}
         </Button>
 
@@ -514,7 +582,13 @@ const EventForm = ({ userId }: EventFormProps) => {
         </div>
 
         <div className="my-6 col-span-full">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex gap-2 items-center mb-4">
+            <Image
+              src="/assets/icons/pdf-svgrepo-com.svg"
+              alt="location"
+              width={32}
+              height={32}
+            />
             <label
               htmlFor="course-image"
               className="block text-lg font-medium leading-6 text-gray-800"
@@ -560,7 +634,7 @@ const EventForm = ({ userId }: EventFormProps) => {
           onClick={createOrderFunction}
           size="lg"
           // disabled={form.formState.isSubmitting}
-          className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3]"
+          className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3] mb-24"
         >
           Place Order
           {/* {form.formState.isSubmitting ? "Submitting..." : "Get Print"} */}

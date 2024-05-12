@@ -62,7 +62,7 @@ const CategoryFilter = () => {
           <SelectItem
             value={category.name}
             key={category._id}
-            className="select-item p-regular-14"
+            className="select-item p-regular-14 hover:p-bold-16"
           >
             {category.name}
           </SelectItem>

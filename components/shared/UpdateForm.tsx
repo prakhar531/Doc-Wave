@@ -46,6 +46,7 @@ import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import { createOrder, updateOrders } from "@/lib/actions/order.actions";
 import { formatDateTime } from "@/lib/utils";
+import Link from "next/link";
 
 const UpdateForm = ({ order, orderId }: any) => {
   const initialValues = order && {
@@ -184,8 +185,19 @@ const UpdateForm = ({ order, orderId }: any) => {
               </div>
             </div>
           </div>
+          <div className="flex flex-center mt-6">
+            <Link href={`/orders/${order._id}`} className="flex gap-2">
+              <p className="text-primary-500">View Complete Order Details</p>
+              <Image
+                src="/assets/icons/arrow.svg"
+                alt="search"
+                width={10}
+                height={10}
+              />
+            </Link>
+          </div>
 
-          <div className="flex flex-center flex-col mt-14">
+          <div className="flex flex-center flex-col mt-14 my-10">
             <h4 className="h3-bold flex item-center">Update Details</h4>
           </div>
         </div>
@@ -295,6 +307,7 @@ const UpdateForm = ({ order, orderId }: any) => {
                         dateFormat="MM/dd/yyyy"
                         wrapperClassName="datePicker"
                         minDate={new Date()}
+                        className="p-bold-16"
                       />
                     </div>
                   </FormControl>

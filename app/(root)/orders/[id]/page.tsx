@@ -5,13 +5,14 @@ import { formatDateTime } from "@/lib/utils";
 import { getOrderById } from "@/lib/actions/order.actions";
 import Order from "@/lib/mongodb/database/models/order.model";
 import { FileText } from "lucide-react";
+import Link from "next/link";
 
 const EventDetails = async ({ params: { id } }: SearchParamProps) => {
   const order = await getOrderById(id);
 
   return (
     <>
-      <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
+      <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain mb-10">
         <div className="">
           <div className="flex w-full flex-col item-center gap-7">
             <div className="flex flex-center flex-col">
@@ -258,6 +259,17 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="flex flex-center my-20">
+            <Link href={`/admin/orders`} className="flex gap-2">
+              <p className="text-primary-500">Back to All Orders</p>
+              <Image
+                src="/assets/icons/arrow.svg"
+                alt="search"
+                width={10}
+                height={10}
+              />
+            </Link>
           </div>
         </div>
       </section>

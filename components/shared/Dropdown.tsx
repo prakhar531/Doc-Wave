@@ -39,7 +39,7 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
             <SelectItem
               key={category._id}
               value={category._id}
-              className="select-item p-regular-14"
+              className="select-item p-regular-14 text-[#182442] hover:p-bold-16"
             >
               {category.name}
             </SelectItem>
