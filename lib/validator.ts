@@ -10,3 +10,8 @@ export const eventFormSchema = z.object({
   dateAndTime: z.date(),
   copies: z.string(),
 });
+
+export const updateFormSchema = z.object({
+  deliveryDateAndTime: z.string(),
+  status: z.string(),
+});

@@ -4,8 +4,14 @@ import { Button } from "../ui/button";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import NavItems from "./NavItems";
 import MobileNav from "./MobileNav";
+import { auth } from "@clerk/nextjs";
+import AdminNavItems from "./AdminNavItems";
 
 const Header = () => {
+  const { sessionClaims } = auth();
+  const userId = (sessionClaims?.userId as string) || "";
+  let finalId = Object.values(userId)[0];
+  let flag = finalId == process.env.ADMIN_ID ? true : false;
   return (
     <header className="w-full border border-b">
       <div className="wrapper flex items-center justify-between">
@@ -20,7 +26,7 @@ const Header = () => {
 
         <SignedIn>
           <nav className="md:flex-between hidden w-full max-w-xs">
-            <NavItems />
+            {flag ? <AdminNavItems /> : <NavItems />}
           </nav>
         </SignedIn>
 

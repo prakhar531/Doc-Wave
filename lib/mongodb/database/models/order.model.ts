@@ -1,20 +1,20 @@
 import { Schema, model, models, Document } from "mongoose";
 
 export interface IOrder extends Document {
-  pageCount: string;
+  binding: string;
+  category: { _id: string; name: string };
   color: string;
+  copies: string;
+  dateAndTime: Date;
+  orientation: string;
   pageType: string;
   sides: string;
-  orientation: string;
-  binding: string;
-  copies: string;
+  pageCount: string;
   url: string;
-  dateAndTime: Date;
   otp: string;
-  deliveryDateAndTime: Date;
+  deliveryDateAndTime: string;
   price: string;
   status: string;
-  category: { _id: string; name: string };
   buyer: {
     _id: string;
     firstName: string;
@@ -34,7 +34,7 @@ export type IOrderItem = {
   url: string;
   dateAndTime: Date;
   otp: string;
-  deliveryDateAndTime: Date;
+  deliveryDateAndTime: string;
   price: string;
   status: string;
   tempFile: any;
@@ -78,7 +78,7 @@ const OrderSchema = new Schema({
     required: true,
   },
   deliveryDateAndTime: {
-    type: Date,
+    type: String,
     required: true,
   },
   price: {

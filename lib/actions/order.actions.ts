@@ -13,6 +13,18 @@ import { connectToDatabase } from "../mongodb/database";
 import Order from "../mongodb/database/models/order.model";
 import User from "../mongodb/database/models/user.model";
 import { ObjectId } from "mongodb";
+import Category from "../mongodb/database/models/category.model";
+import { revalidatePath } from "next/cache";
+
+const populateEvent = (query: any) => {
+  return query
+    .populate({
+      path: "buyer",
+      model: User,
+      select: "_id firstName lastName",
+    })
+    .populate({ path: "category", model: Category, select: "_id name" });
+};
 
 // export const checkoutOrder = async (order: CheckoutOrderParams) => {
 //   try {
@@ -49,14 +61,19 @@ import { ObjectId } from "mongodb";
 // };
 
 //create new instance of order in database
-export const createOrder = async (order: any) => {
+export const createOrder = async ({ userId, orders, path }: any) => {
   try {
     await connectToDatabase();
+    let finalId = Object.values(userId)[0];
+
+    const buyer = await User.findById(finalId);
+    if (!buyer) throw new Error("Organizer not found");
+
+    console.log(buyer);
 
     const newOrder = await Order.create({
-      ...order,
-      event: order.eventId,
-      buyer: order.buyerId,
+      ...orders,
+      buyer,
     });
 
     return JSON.parse(JSON.stringify(newOrder));
@@ -65,44 +82,108 @@ export const createOrder = async (order: any) => {
   }
 };
 
+// Get order by Id
+export async function getOrderById(orderId: string) {
+  try {
+    await connectToDatabase();
+
+    const order = await populateEvent(Order.findById(orderId));
+
+    if (!order) throw new Error("Order not found");
+
+    return JSON.parse(JSON.stringify(order));
+  } catch (error) {
+    handleError(error);
+  }
+}
 
 // GET ORDERS BY USER
-//tickets when a specific user has bought
-// export async function getOrdersByUser({
-//   userId,
-//   limit = 3,
-//   page,
-// }: GetOrdersByUserParams) {
-//   try {
-//     await connectToDatabase();
+export async function getOrdersByUser({ userId, limit = 10 }: any) {
+  try {
+    await connectToDatabase();
+    const conditions = { buyer: userId };
 
-//     const skipAmount = (Number(page) - 1) * limit;
-//     const conditions = { buyer: userId };
+    const orders = await Order.distinct("order._id")
+      .find(conditions)
+      .sort({ dateAndTime: "desc" })
+      .limit(limit)
+      .populate({
+        path: "buyer",
+        model: User,
+        select: "_id firstName lastName",
+      });
 
-//     const orders = await Order.distinct("event._id")
-//       .find(conditions)
-//       .sort({ createdAt: "desc" })
-//       .skip(skipAmount)
-//       .limit(limit)
-//       .populate({
-//         path: "event",
-//         model: Event,
-//         populate: {
-//           path: "organizer",
-//           model: User,
-//           select: "_id firstName lastName",
-//         },
-//       });
+    const ordersCount = await Order.distinct("order._id").countDocuments(
+      conditions
+    );
 
-//     const ordersCount = await Order.distinct("event._id").countDocuments(
-//       conditions
-//     );
+    return {
+      data: JSON.parse(JSON.stringify(orders)),
+      totalPages: Math.ceil(ordersCount / limit),
+    };
+  } catch (error) {
+    handleError(error);
+  }
+}
 
-//     return {
-//       data: JSON.parse(JSON.stringify(orders)),
-//       totalPages: Math.ceil(ordersCount / limit),
-//     };
-//   } catch (error) {
-//     handleError(error);
-//   }
-// }
+const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: "i" } });
+};
+
+export async function getAllOrders({ query, limit = 6, category }: any) {
+  try {
+    await connectToDatabase();
+
+    // it creates a regular expression with a case-insensitive match for the title
+    const titleCondition = query
+      ? { title: { $regex: query, $options: "i" } }
+      : {};
+
+    const categoryCondition = category
+      ? await getCategoryByName(category)
+      : null;
+
+    const conditions = {
+      $and: [
+        titleCondition,
+        categoryCondition ? { category: categoryCondition._id } : {},
+      ],
+    };
+
+    const orderQuery = Order.find(conditions)
+      .sort({ dateAndTime: "ascending" })
+      .limit(limit);
+
+    const orders = await populateEvent(orderQuery);
+    const eventsCount = await Order.countDocuments(conditions);
+
+    return {
+      data: JSON.parse(JSON.stringify(orders)),
+      totalPages: Math.ceil(eventsCount / limit),
+    };
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function updateOrders({ order, path }: any) {
+  try {
+    await connectToDatabase();
+
+    const orderToUpdate = await Order.findById(order._id);
+    if (!orderToUpdate) {
+      throw new Error("Unauthorized or event not found");
+    }
+
+    const updatedOrder = await Order.findByIdAndUpdate(order._id, {
+      ...order,
+      status: order.status,
+      deliveryDateAndTime: order.deliveryDateAndTime,
+    });
+    revalidatePath(path);
+
+    return JSON.parse(JSON.stringify(updatedOrder));
+  } catch (error) {
+    handleError(error);
+  }
+}

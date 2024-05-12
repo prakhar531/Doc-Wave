@@ -43,9 +43,11 @@ import sha256 from "crypto-js/sha256";
 import { redirect } from "next/navigation";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import path from "path";
+import { createOrder } from "@/lib/actions/order.actions";
 
 type EventFormProps = {
-  userId: string;
+  userId: any;
   type: "Create" | "Update";
 };
 
@@ -53,6 +55,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
   const [pdfUrl, setPdfUrl] = useState("");
   const [pdfFileData, setPdfFileData] = useState<any>("");
   const [pdfPrice, setPdfPrice] = useState("");
+  const [formData, setFormData] = useState({});
   let finalPrice = 0;
 
   //phone pay
@@ -107,8 +110,42 @@ const EventForm = ({ userId, type }: EventFormProps) => {
     router.push(redirect);
   };
 
+  //create order
+
+  async function createOrderFunction() {
+    let optValue = Math.floor(1000 + Math.random() * 9000);
+    let orderValue = {
+      pageCount: +pdfFileData,
+      url: pdfUrl,
+      price: pdfPrice,
+      status: "Processing",
+      otp: +optValue,
+      deliveryDateAndTime: "Updating",
+    };
+    let finalOrder = { ...orderValue, ...formData };
+
+    console.log(finalOrder);
+
+    try {
+      const newOrder = await createOrder({
+        orders: { ...finalOrder },
+        userId,
+        path: "/orders",
+      });
+
+      console.log("new order created");
+
+      if (newOrder) {
+        form.reset();
+      }
+      router.push(`/orders/${newOrder._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   //main pricing logic
-  let formValue = {};
+
   const dataValues = {
     normal: 0,
     bond: 5,
@@ -133,7 +170,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
   // 2. Define a submit handler.
   function onSubmit(values: any) {
-    formValue = values;
+    setFormData(values);
 
     let paperTypes =
       values.pageType == "normal" ? dataValues.normal : dataValues.bond;
@@ -154,7 +191,8 @@ const EventForm = ({ userId, type }: EventFormProps) => {
       (colorValue + paperTypes) * sideValue * numberOfCopy * numberOfPages +
       bindingValue * numberOfCopy;
     setPdfPrice(finalPrice.toString());
-    console.log(finalPrice);
+    // console.log(finalPrice);
+    // console.log(formValue);
   }
 
   function readFileAsync(file: Blob) {
@@ -369,10 +407,9 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                     <DatePicker
                       selected={field.value}
                       onChange={(date: Date) => field.onChange(date)}
-                      showTimeSelect
-                      timeInputLabel="Time:"
-                      dateFormat="MM/dd/yyyy h:mm aa"
+                      dateFormat="MM/dd/yyyy"
                       wrapperClassName="datePicker"
+                      minDate={new Date()}
                     />
                   </div>
                 </FormControl>
@@ -476,7 +513,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
         </div>
 
         <Button
-          onClick={makePayment}
+          onClick={createOrderFunction}
           size="lg"
           // disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3]"
