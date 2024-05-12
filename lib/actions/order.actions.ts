@@ -179,6 +179,7 @@ export async function updateOrders({ order, path }: any) {
       ...order,
       status: order.status,
       deliveryDateAndTime: order.deliveryDateAndTime,
+      adminDate: order.adminDate,
     });
     revalidatePath(path);
 

@@ -48,10 +48,9 @@ import { createOrder } from "@/lib/actions/order.actions";
 
 type EventFormProps = {
   userId: any;
-  type: "Create" | "Update";
 };
 
-const EventForm = ({ userId, type }: EventFormProps) => {
+const EventForm = ({ userId }: EventFormProps) => {
   const [pdfUrl, setPdfUrl] = useState("");
   const [pdfFileData, setPdfFileData] = useState<any>("");
   const [pdfPrice, setPdfPrice] = useState("");
@@ -114,6 +113,8 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
   async function createOrderFunction() {
     let optValue = Math.floor(1000 + Math.random() * 9000);
+    let currentDate = new Date();
+
     let orderValue = {
       pageCount: +pdfFileData,
       url: pdfUrl,
@@ -121,6 +122,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
       status: "Processing",
       otp: +optValue,
       deliveryDateAndTime: "Updating",
+      adminDate: new Date(),
     };
     let finalOrder = { ...orderValue, ...formData };
 
@@ -377,7 +379,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
             control={form.control}
             name="copies"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full basis-1/2">
                 <FormLabel>Enter NO. copies</FormLabel>
                 <FormControl>
                   <Input placeholder="10" {...field} className="input-field" />
@@ -387,36 +389,78 @@ const EventForm = ({ userId, type }: EventFormProps) => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="dateAndTime"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                    <Image
-                      src="/assets/icons/calendar.svg"
-                      alt="calendar"
-                      width={24}
-                      height={24}
-                      className="filter-grey"
-                    />
-                    <p className="ml-3 whitespace-nowrap text-grey-600">
-                      Pickup Date and Time
-                    </p>
-                    <DatePicker
-                      selected={field.value}
-                      onChange={(date: Date) => field.onChange(date)}
-                      dateFormat="MM/dd/yyyy"
-                      wrapperClassName="datePicker"
-                      minDate={new Date()}
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="basis-1/2 flex">
+            <FormField
+              control={form.control}
+              name="userTimeSlot"
+              render={({ field }) => (
+                <FormItem className="basis-1/2">
+                  <FormLabel>Select Date&Time slots</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select delivery Time slots" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem
+                        value="8:30Am - 9:30Am"
+                        className="hover:p-bold-16"
+                      >
+                        Slot-1: 08:30Am - 09:30Am
+                      </SelectItem>
+                      <SelectItem
+                        value="11:00Am - 12:00Pm"
+                        className="hover:p-bold-16"
+                      >
+                        Slot-2: 11:00Am - 12:00Pm
+                      </SelectItem>
+                      <SelectItem
+                        value="03:00Pm - 04:00Pm"
+                        className="hover:p-bold-16"
+                      >
+                        Slot-3: 03:00Pm - 04:00Pm
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="dateAndTime"
+              render={({ field }) => (
+                <FormItem className="w-full basis-1/2 ml-4">
+                  <FormControl>
+                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2 mt-5">
+                      <Image
+                        src="/assets/icons/calendar.svg"
+                        alt="calendar"
+                        width={24}
+                        height={24}
+                        className="filter-grey"
+                      />
+                      <p className="ml-3 whitespace-nowrap text-grey-600">
+                        Date
+                      </p>
+                      <DatePicker
+                        selected={field.value}
+                        onChange={(date: Date) => field.onChange(date)}
+                        dateFormat="MM/dd/yyyy"
+                        wrapperClassName="datePicker"
+                        minDate={new Date()}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-5 md:flex-row">

@@ -13,7 +13,7 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
     <>
       <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
         <div className="">
-          <div className="flex w-full flex-col item-center gap-8">
+          <div className="flex w-full flex-col item-center gap-7">
             <div className="flex flex-center flex-col">
               <h2 className="h2-bold mt-6 flex item-center">Order Details</h2>
 
@@ -219,19 +219,41 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
                 />
                 <div className="p-medium-16 lg:p-regular-20 flex flex-col flex-wrap ">
                   <div className="flex gap-2">
-                    <p className="p-bold-20 text-grey-600">
-                      Selected Date&Time:
+                    <p className="p-bold-20 text-grey-600">Selected Date:</p>
+                    <p className="ml-24">
+                      {formatDateTime(order.dateAndTime).dateOnly}
                     </p>
-                    <p className="ml-6">
-                      {formatDateTime(order.dateAndTime).dateOnly} -{" "}
-                      {formatDateTime(order.dateAndTime).timeOnly}
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="p-bold-20 text-grey-600">
+                      Selected Time Slots:
+                    </p>
+                    <p className="ml-10">{order.userTimeSlot}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-5">
+              <div className="flex gap-2 md:gap-3">
+                <Image
+                  src="/assets/icons/event-date-and-time-symbol-svgrepo-com.svg"
+                  alt="calendar"
+                  width={32}
+                  height={32}
+                />
+                <div className="p-medium-16 lg:p-regular-20 flex flex-col flex-wrap ">
+                  <div className="flex gap-2">
+                    <p className="p-bold-20 text-grey-600">Expected Date:</p>
+                    <p className="ml-24">
+                      {formatDateTime(order.adminDate).dateOnly}
                     </p>
                   </div>
                   <div className="flex gap-2">
                     <p className="p-bold-20 text-grey-600">
                       Expected Time Slots:
                     </p>
-                    <p className="ml-7">{order.deliveryDateAndTime}</p>
+                    <p className="ml-10">{order.deliveryDateAndTime}</p>
                   </div>
                 </div>
               </div>

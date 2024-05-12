@@ -20,6 +20,9 @@ export interface IOrder extends Document {
     firstName: string;
     lastName: string;
   };
+
+  adminDate: Date;
+  userTimeSlot: string;
 }
 
 export type IOrderItem = {
@@ -40,6 +43,9 @@ export type IOrderItem = {
   tempFile: any;
   category: string;
   buyer: string;
+
+  adminDate: Date;
+  userTimeSlot: string;
 };
 
 const OrderSchema = new Schema({
@@ -93,6 +99,15 @@ const OrderSchema = new Schema({
   buyer: {
     type: Schema.Types.ObjectId,
     ref: "User",
+  },
+
+  adminDate: {
+    type: Date,
+    required: true,
+  },
+  userTimeSlot: {
+    type: String,
+    required: true,
   },
 });
 

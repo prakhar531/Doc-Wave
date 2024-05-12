@@ -9,9 +9,11 @@ export const eventFormSchema = z.object({
   binding: z.string(),
   dateAndTime: z.date(),
   copies: z.string(),
+  userTimeSlot: z.string(),
 });
 
 export const updateFormSchema = z.object({
   deliveryDateAndTime: z.string(),
   status: z.string(),
+  adminDate: z.date(),
 });

@@ -51,6 +51,7 @@ const UpdateForm = ({ order, orderId }: any) => {
   const initialValues = order && {
     status: order.status,
     deliveryDateAndTime: order.deliveryDateAndTime,
+    adminDate: new Date(),
   };
   const form = useForm<z.infer<typeof updateFormSchema>>({
     resolver: zodResolver(updateFormSchema),
@@ -144,15 +145,46 @@ const UpdateForm = ({ order, orderId }: any) => {
               />
               <div className="p-medium-16 lg:p-regular-20 flex flex-col flex-wrap ">
                 <div className="flex gap-2">
-                  <p className="p-bold-20 text-grey-600">Expected Date&Time:</p>
-                  <p className="ml-6">
-                    {formatDateTime(order.dateAndTime).dateOnly} -{" "}
-                    {formatDateTime(order.dateAndTime).timeOnly}
+                  <p className="p-bold-20 text-grey-600">Selected Date:</p>
+                  <p className="ml-24">
+                    {formatDateTime(order.dateAndTime).dateOnly}
                   </p>
+                </div>
+                <div className="flex gap-2">
+                  <p className="p-bold-20 text-grey-600">
+                    Selected Time Slots:
+                  </p>
+                  <p className="ml-10">{order.userTimeSlot}</p>
                 </div>
               </div>
             </div>
           </div>
+
+          <div className="flex flex-col gap-5">
+            <div className="flex gap-2 md:gap-3">
+              <Image
+                src="/assets/icons/event-date-and-time-symbol-svgrepo-com.svg"
+                alt="calendar"
+                width={32}
+                height={32}
+              />
+              <div className="p-medium-16 lg:p-regular-20 flex flex-col flex-wrap ">
+                <div className="flex gap-2">
+                  <p className="p-bold-20 text-grey-600">Assigned Date:</p>
+                  <p className="ml-24">
+                    {formatDateTime(order.adminDate).dateOnly}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <p className="p-bold-20 text-grey-600">
+                    Assigned Time Slots:
+                  </p>
+                  <p className="ml-10">{order.deliveryDateAndTime}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="flex flex-center flex-col mt-14">
             <h4 className="h3-bold flex item-center">Update Details</h4>
           </div>
@@ -238,6 +270,40 @@ const UpdateForm = ({ order, orderId }: any) => {
               )}
             />
           </div>
+
+          <div className="flex">
+            <FormField
+              control={form.control}
+              name="adminDate"
+              render={({ field }) => (
+                <FormItem className="w-full basis-1/2">
+                  <FormControl>
+                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2 mt-5">
+                      <Image
+                        src="/assets/icons/calendar.svg"
+                        alt="calendar"
+                        width={24}
+                        height={24}
+                        className="filter-grey"
+                      />
+                      <p className="ml-3 whitespace-nowrap text-grey-600">
+                        Date
+                      </p>
+                      <DatePicker
+                        selected={field.value}
+                        onChange={(date: Date) => field.onChange(date)}
+                        dateFormat="MM/dd/yyyy"
+                        wrapperClassName="datePicker"
+                        minDate={new Date()}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <Button
             type="submit"
             className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3]"

@@ -29,4 +29,5 @@ export const eventDefaultValues = {
   binding: "",
   copies: "",
   dateAndTime: new Date(),
+  userTimeSlot: "",
 };
