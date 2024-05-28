@@ -495,13 +495,12 @@ const EventForm = ({ userId }: EventFormProps) => {
             </p>
           </div>
         </div>
+
         <Button
           type="submit"
           className="button col-span-2 w-full bg-[#1e3262] hover:bg-[#6385a3]"
         >
-          {form.formState.isSubmitting
-            ? "Calculating..."
-            : "Check Price and Timeslots"}
+          {form.formState.isSubmitting ? "Calculating..." : "Check Price"}
         </Button>
 
         <div className="flex flex-col gap-5 md:flex-row">

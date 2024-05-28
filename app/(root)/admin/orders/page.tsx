@@ -17,7 +17,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
   const orders = await getAllOrders({
     query: searchText,
     category: category,
-    limit: 6,
+    limit: 20,
   });
   const orderArray = orders?.data.map((order: IOrder) => order) || [];
   // console.log(orders);
