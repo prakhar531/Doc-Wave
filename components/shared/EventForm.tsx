@@ -249,7 +249,7 @@ const EventForm = ({ userId }: EventFormProps) => {
                       value="colorful"
                       className="text-[#182442] hover:p-bold-16"
                     >
-                      Colorful Print
+                      Colored Print
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -507,10 +507,10 @@ const EventForm = ({ userId }: EventFormProps) => {
         <div className="flex flex-col gap-5 md:flex-row">
           <div className="flex align-left h-[54px] w-full overflow-hidden rounded-full bg-grey-50">
             <Image
-              src="/assets/icons/dollar.svg"
+              src="/assets/icons/rupee-square-svgrepo-com.svg"
               alt="link"
-              width={24}
-              height={24}
+              width={36}
+              height={36}
             />
             <p className="flex-col flex-center ml-3 whitespace-nowrap text-grey-600">
               Calculated Price
