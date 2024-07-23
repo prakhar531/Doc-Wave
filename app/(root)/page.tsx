@@ -6,6 +6,7 @@ import { SearchParamProps } from "@/types";
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs";
+import { HeroHighlightDemo } from "@/components/shared/HeroHighlightDemo";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const { sessionClaims } = auth();
@@ -29,7 +30,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
         )}
       </SignedIn> */}
 
-      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
+      {/* <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
         <div className="wrapper flex flex-col gap-5 md:flex-row 2xl:gap-0">
           <div className="flex flex-col justify-center gap-2 w-full md:w-1/2 xl:w-3/5">
             <h1 className="h1-bold">Printing Magic At Your Fingertips</h1>
@@ -71,7 +72,9 @@ export default async function Home({ searchParams }: SearchParamProps) {
             className="max-h-[70vh] object-contain object-center xl:max-h-[60vh] 2xl:max-h-[50vh]  w-full md:w-1/2"
           />
         </div>
-      </section>
+      </section> */}
+
+      <HeroHighlightDemo flag={flag} />
     </>
   );
 }
