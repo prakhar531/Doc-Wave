@@ -1,5 +1,5 @@
 # Doc-Wave
-Printing solution for BNMIT
+The College Document Printing Management System is a powerful platform built with Next.js 14, designed to simplify document printing for colleges. It uses Clerk for secure user authentication and MongoDB for data storage.
 
 # Project Link
 https://doc-wave.vercel.app/
@@ -13,3 +13,7 @@ Rozorpay
 Zod
 React Hook Form
 uploadthing
+
+# User Feature
+
+
